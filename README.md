@@ -150,6 +150,19 @@ Evaluated on a 10,000-sample synthetic dispute dataset (`data/disputes.csv`) spl
 | **ROC-AUC $\uparrow$** | **0.9019** | 0.8923 | **Logistic Regression** | Strong ranking ability across thresholds |
 | **PR-AUC $\uparrow$** | **0.9065** | 0.8954 | **Logistic Regression** | Superior precision at high recall |
 
+### Model Performance
+
+Evaluated on a held-out test set.
+
+| Metric | Score |
+|---|---:|
+| Precision | 0.7903 |
+| Recall | 0.9336 |
+| F1 Score | 0.8560 |
+| ROC-AUC | 0.8964 |
+| PR-AUC | 0.8986 |
+| Brier Score | 0.1244 |
+
 ### Input Features (19 Total)
 - **Financial Signals:** `transaction_amount`, `customer_avg_order_value`, `refund_amount_ratio`
 - **Customer History:** `customer_order_count`, `previous_refunds`, `previous_disputes`, `payment_failures`, `communication_count`
