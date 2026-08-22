@@ -11,7 +11,7 @@
 [![Render](https://img.shields.io/badge/Deployment-Live%20on%20Render-46E3B7?style=flat-square&logo=render)](https://razorpay-sentinel.onrender.com)
 
 **Live Deployed Application:** [https://razorpay-sentinel.onrender.com](https://razorpay-sentinel.onrender.com)  
-**Interactive API Documentation:** [https://razorpay-sentinel.onrender.com/docs](https://razorpay-sentinel.onrender.com/docs)  
+
 **GitHub Repository:** [https://github.com/Sanketsingh23/razorpay-sentinel](https://github.com/Sanketsingh23/razorpay-sentinel)
 
 ---
@@ -37,6 +37,18 @@ Dispute Case ──► ML Risk Engine ──► Decision Agent ──► Evidenc
                   (P(success) +       (Economics +        (6 Evidence Items +             (Immutable
                    Reason Codes)       Guardrails)         Traceable Draft)                Forensics)
 ```
+### Model Performance
+
+Evaluated on a held-out test set.
+
+| Metric | Score |
+|---|---:|
+| Precision | 0.7903 |
+| Recall | 0.9336 |
+| F1 Score | 0.8560 |
+| ROC-AUC | 0.8964 |
+| PR-AUC | 0.8986 |
+| Brier Score | 0.1244 |
 
 ### Core Architectural Principle: ML Predicts, Policy Governs
 The machine learning model **never makes the authoritative business decision**. It produces a well-calibrated win probability $P(\text{success})$ and signed mathematical feature contributions. The separate, deterministic **Decision Agent** applies financial recovery formulas, operational expense thresholds, and evidence completeness guardrails to select the final action: **ACCEPT**, **ESCALATE**, or **CONTEST**.
@@ -149,19 +161,6 @@ Evaluated on a 10,000-sample synthetic dispute dataset (`data/disputes.csv`) spl
 | **Cost-Sensitive Decision Loss (Val) $\downarrow$** | **₹2,767,449** | ₹3,035,470 | **Logistic Regression** | Minimizes false contests & missed recoveries |
 | **ROC-AUC $\uparrow$** | **0.9019** | 0.8923 | **Logistic Regression** | Strong ranking ability across thresholds |
 | **PR-AUC $\uparrow$** | **0.9065** | 0.8954 | **Logistic Regression** | Superior precision at high recall |
-
-### Model Performance
-
-Evaluated on a held-out test set.
-
-| Metric | Score |
-|---|---:|
-| Precision | 0.7903 |
-| Recall | 0.9336 |
-| F1 Score | 0.8560 |
-| ROC-AUC | 0.8964 |
-| PR-AUC | 0.8986 |
-| Brier Score | 0.1244 |
 
 ### Input Features (19 Total)
 - **Financial Signals:** `transaction_amount`, `customer_avg_order_value`, `refund_amount_ratio`
