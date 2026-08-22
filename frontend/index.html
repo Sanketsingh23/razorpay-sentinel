@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RazorPay Sentinel — Autonomous Dispute Risk Intelligence & Decision Orchestration</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <!-- Enterprise Navigation Header -->
   <header class="app-header">
     <div class="header-left">
       <div class="logo-badge">
-        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="m9 12 2 2 4-4"/>
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
         </svg>
       </div>
       <div class="brand-text">
@@ -27,14 +32,17 @@
         <p class="tagline">Dispute Risk Intelligence & Decision Orchestration System</p>
       </div>
     </div>
-    
+
     <div class="header-right">
       <div class="system-status" id="system-status-indicator">
         <span class="status-dot"></span>
         <span id="system-status-text">Checking System Status...</span>
       </div>
       <button class="btn btn-primary" id="btn-new-case">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
         <span>Create Dispute Case</span>
       </button>
     </div>
@@ -42,7 +50,7 @@
 
   <!-- Main Dashboard Container -->
   <main class="dashboard-container">
-    
+
     <!-- Demonstration Benchmark Presets -->
     <section class="preset-section">
       <div class="section-title-row">
@@ -124,7 +132,7 @@
           <div class="empty-state" id="risk-empty-state">
             <p>Select or create a dispute case above to evaluate contest probability.</p>
           </div>
-          
+
           <div class="risk-results hidden" id="risk-results">
             <!-- Win Probability Gauge Strip -->
             <div class="risk-meter-wrap">
@@ -150,7 +158,7 @@
                 <span class="factor-header-note">Signed Standardized Contributions ($c_j = \beta_j \cdot z_j$)</span>
               </div>
               <div class="reason-tags" id="reason-codes-tags"></div>
-              
+
               <div class="factors-split">
                 <div class="factor-col positive-col">
                   <h5>Supporting Factors (+)</h5>
@@ -170,10 +178,10 @@
       <section class="pipeline-card card-hero" id="stage-decision">
         <div class="stage-header">
           <div class="stage-title-wrap">
-            <span class="stage-number hero-stage-number">03</span>
+            <span class="stage-number hero-stage-number">02</span>
             <div>
               <div class="hero-title-row">
-                <h3>Phase 3 — Decision Agent</h3>
+                <h3>Phase 2 — Decision Agent</h3>
                 <span class="badge-hero-pill">AUTHORITATIVE DECISION</span>
               </div>
               <p>Deterministic Net Financial Economics, Policy Guardrails & Action Selection</p>
@@ -188,14 +196,14 @@
           </div>
 
           <div class="decision-results hidden" id="decision-results">
-            
+
             <!-- Authoritative Action Hero Banner -->
             <div class="decision-hero">
               <div class="decision-action-box">
                 <span class="action-label">Authoritative Action</span>
                 <span class="action-badge" id="decision-action-badge">--</span>
               </div>
-              
+
               <div class="decision-metrics-grid">
                 <div class="dec-metric">
                   <span class="dec-metric-label">Expected Recovery</span>
@@ -260,9 +268,9 @@
       <section class="pipeline-card" id="stage-evidence">
         <div class="stage-header">
           <div class="stage-title-wrap">
-            <span class="stage-number">04</span>
+            <span class="stage-number">03</span>
             <div>
-              <h3>Phase 4 — Evidence & Dispute Agent</h3>
+              <h3>Phase 3 — Evidence & Dispute Agent</h3>
               <p>Fact Extraction, Conflict Validation & Claim Traceability</p>
             </div>
           </div>
@@ -305,7 +313,8 @@
               <div class="draft-header">
                 <div>
                   <h4>Factual Dispute Response Statement</h4>
-                  <p class="draft-sub">Assembled response package prepared for merchant review before network submission</p>
+                  <p class="draft-sub">Assembled response package prepared for merchant review before network submission
+                  </p>
                 </div>
                 <span class="badge badge-info">100% Claim-to-Evidence Traceability</span>
               </div>
@@ -327,14 +336,16 @@
       <section class="pipeline-card" id="stage-audit">
         <div class="stage-header">
           <div class="stage-title-wrap">
-            <span class="stage-number">05</span>
+            <span class="stage-number">04</span>
             <div>
-              <h3>Phase 5 — Audit Trail & Forensics Log</h3>
+              <h3>Phase 4 — Audit Trail & Forensics Log</h3>
               <p>Immutable Chronological Lifecycle Transitions & Forensic Metadata</p>
             </div>
           </div>
           <button class="btn btn-secondary" id="btn-refresh-audit">
-            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+            </svg>
             <span>Refresh Audit Log</span>
           </button>
         </div>
@@ -432,10 +443,12 @@
   <footer class="app-footer">
     <div class="footer-content">
       <p><strong>RazorPay Sentinel</strong> — Autonomous Dispute Risk Intelligence & Decision Orchestration System</p>
-      <p class="footer-sub">ML Win Probability Engine (Phase 1) | Deterministic Financial Policy (Phase 3) | Evidence Assembly Agent (Phase 4) | Forensic Audit Log (Phase 5)</p>
+      <p class="footer-sub">ML Win Probability Engine (Phase 1) | Deterministic Financial Policy (Phase 3) | Evidence
+        Assembly Agent (Phase 4) | Forensic Audit Log (Phase 5)</p>
     </div>
   </footer>
 
   <script src="js/app.js"></script>
 </body>
+
 </html>
