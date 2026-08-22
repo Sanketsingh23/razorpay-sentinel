@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RazorPay Sentinel — Dispute Risk Intelligence & Orchestration</title>
+  <title>RazorPay Sentinel — Autonomous Dispute Risk Intelligence & Decision Orchestration</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Navigation Bar -->
+  <!-- Enterprise Navigation Header -->
   <header class="app-header">
     <div class="header-left">
       <div class="logo-badge">
@@ -20,38 +20,43 @@
         </svg>
       </div>
       <div class="brand-text">
-        <h1>RazorPay <span class="accent-text">Sentinel</span></h1>
-        <p class="tagline">Dispute Risk Intelligence & Decision Orchestration</p>
+        <div class="brand-title-row">
+          <h1>RazorPay <span class="accent-text">Sentinel</span></h1>
+          <span class="system-tag">RISK OPS CONSOLE</span>
+        </div>
+        <p class="tagline">Dispute Risk Intelligence & Decision Orchestration System</p>
       </div>
     </div>
     
     <div class="header-right">
       <div class="system-status" id="system-status-indicator">
         <span class="status-dot"></span>
-        <span id="system-status-text">Connecting...</span>
+        <span id="system-status-text">Checking System Status...</span>
       </div>
       <button class="btn btn-primary" id="btn-new-case">
-        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-        Create Case
+        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Create Dispute Case</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Main Dashboard Container -->
   <main class="dashboard-container">
     
-    <!-- Demo Presets Bar -->
+    <!-- Demonstration Benchmark Presets -->
     <section class="preset-section">
       <div class="section-title-row">
-        <h2>⚡ Demonstration Presets (1-Click Evaluation)</h2>
-        <span class="preset-hint">Load pre-configured dispute profiles directly into the pipeline</span>
+        <div class="section-title-group">
+          <h2>Demonstration Benchmark Presets</h2>
+          <span class="section-subtitle">Load calibrated dispute profiles directly into the decision pipeline</span>
+        </div>
       </div>
       <div class="preset-grid" id="preset-grid">
         <!-- Preset Cards injected via JS -->
       </div>
     </section>
 
-    <!-- Active Case Banner / Selector -->
+    <!-- Transaction Intelligence Strip / Active Case Banner -->
     <section class="case-banner">
       <div class="banner-top">
         <div class="case-meta-primary">
@@ -60,53 +65,56 @@
           <span class="badge badge-date" id="active-case-date">--</span>
         </div>
         <div class="case-switcher">
-          <label for="case-selector-dropdown">Select Existing Case:</label>
+          <label for="case-selector-dropdown">Dispute Case Queue:</label>
           <select id="case-selector-dropdown" class="select-input">
             <option value="">Loading cases...</option>
           </select>
         </div>
       </div>
 
-      <!-- Case Fact Grid -->
-      <div class="fact-grid" id="fact-grid">
+      <!-- Transaction Intelligence Strip -->
+      <div class="fact-strip" id="fact-grid">
         <div class="fact-card">
-          <span class="fact-label">Transaction Amount</span>
-          <span class="fact-value" id="fact-amount">--</span>
+          <span class="fact-label">Dispute Amount</span>
+          <div class="fact-value-wrap">
+            <span class="fact-value fact-currency" id="fact-amount">--</span>
+          </div>
+          <span class="fact-sub" id="fact-reason">Category: --</span>
         </div>
         <div class="fact-card">
-          <span class="fact-label">Dispute Reason</span>
-          <span class="fact-value" id="fact-reason">--</span>
-        </div>
-        <div class="fact-card">
-          <span class="fact-label">Delivery Proof</span>
+          <span class="fact-label">Fulfillment Status</span>
           <span class="fact-value" id="fact-delivery">--</span>
+          <span class="fact-sub">Carrier tracking record</span>
         </div>
         <div class="fact-card">
-          <span class="fact-label">Customer Orders / Avg</span>
+          <span class="fact-label">Customer Profile</span>
           <span class="fact-value" id="fact-orders">--</span>
+          <span class="fact-sub">Order volume & value</span>
         </div>
         <div class="fact-card">
-          <span class="fact-label">Prior Refunds / Disputes</span>
+          <span class="fact-label">Risk & Dispute History</span>
           <span class="fact-value" id="fact-history">--</span>
+          <span class="fact-sub">Refund & dispute count</span>
         </div>
         <div class="fact-card">
-          <span class="fact-label">Evidence Ratio</span>
+          <span class="fact-label">Evidence Completeness</span>
           <span class="fact-value" id="fact-evidence">--</span>
+          <span class="fact-sub">Readiness ratio</span>
         </div>
       </div>
     </section>
 
-    <!-- Pipeline Stages -->
+    <!-- Pipeline Workflow Stages -->
     <div class="pipeline-grid">
 
       <!-- STAGE 1: ML RISK ENGINE -->
-      <div class="pipeline-card" id="stage-risk">
+      <section class="pipeline-card" id="stage-risk">
         <div class="stage-header">
           <div class="stage-title-wrap">
             <span class="stage-number">01</span>
             <div>
               <h3>Phase 1 — ML Risk Engine</h3>
-              <p>Calibrated Contest Probability & Signed Factor Weights</p>
+              <p>Calibrated Contest Win Probability & Mathematical Reason Codes</p>
             </div>
           </div>
           <button class="btn btn-action" id="btn-run-predict" disabled>Run Risk Model</button>
@@ -114,52 +122,61 @@
 
         <div class="stage-body" id="stage-risk-body">
           <div class="empty-state" id="risk-empty-state">
-            <p>Select or create a dispute case to evaluate contest probability.</p>
+            <p>Select or create a dispute case above to evaluate contest probability.</p>
           </div>
           
           <div class="risk-results hidden" id="risk-results">
+            <!-- Win Probability Gauge Strip -->
             <div class="risk-meter-wrap">
               <div class="meter-score-row">
-                <span class="meter-label">Contest Success Probability</span>
+                <div>
+                  <span class="meter-label">Contest Win Probability ($P(\text{success})$)</span>
+                  <div class="meter-sub-row">
+                    <span class="badge" id="risk-level-badge">RISK LEVEL: --</span>
+                    <span class="text-subtle" id="risk-model-ver">Model: LogisticRegression (L2)</span>
+                  </div>
+                </div>
                 <span class="meter-score" id="risk-prob-value">--%</span>
               </div>
               <div class="meter-bar-track">
                 <div class="meter-bar-fill" id="risk-prob-bar"></div>
               </div>
-              <div class="risk-badge-row">
-                <span class="badge" id="risk-level-badge">RISK LEVEL: --</span>
-                <span class="text-subtle" id="risk-model-ver">Model: LogisticRegression v1.0</span>
-              </div>
             </div>
 
-            <!-- Model-Derived Reason Codes -->
+            <!-- Mathematical Reason Codes & Feature Weights -->
             <div class="factor-group">
-              <h4>Model-Derived Reason Codes & Features</h4>
+              <div class="factor-group-header">
+                <h4>Model-Derived Reason Codes & Factor Weights</h4>
+                <span class="factor-header-note">Signed Standardized Contributions ($c_j = \beta_j \cdot z_j$)</span>
+              </div>
               <div class="reason-tags" id="reason-codes-tags"></div>
               
               <div class="factors-split">
                 <div class="factor-col positive-col">
-                  <h5>Positive Supporting Factors</h5>
+                  <h5>Supporting Factors (+)</h5>
                   <ul class="factor-list" id="positive-factors-list"></ul>
                 </div>
                 <div class="factor-col negative-col">
-                  <h5>Negative Risk Factors</h5>
+                  <h5>Risk Factors (-)</h5>
                   <ul class="factor-list" id="negative-factors-list"></ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- STAGE 2: DECISION AGENT -->
-      <div class="pipeline-card" id="stage-decision">
+      <!-- STAGE 2: DECISION AGENT (HERO SECTION) -->
+      <section class="pipeline-card card-hero" id="stage-decision">
         <div class="stage-header">
           <div class="stage-title-wrap">
-            <span class="stage-number">03</span>
+            <span class="stage-number hero-stage-number">03</span>
             <div>
-              <h3>Phase 3 — Decision Agent</h3>
-              <p>Deterministic Economics, Policy Guardrails & Reasoning</p>
+              <div class="hero-title-row">
+                <h3>Phase 3 — Decision Agent</h3>
+                <span class="badge-hero-pill">AUTHORITATIVE DECISION</span>
+              </div>
+              <p>Deterministic Net Financial Economics, Policy Guardrails & Action Selection</p>
             </div>
           </div>
           <button class="btn btn-action" id="btn-run-decide" disabled>Run Decision Policy</button>
@@ -171,44 +188,82 @@
           </div>
 
           <div class="decision-results hidden" id="decision-results">
+            
+            <!-- Authoritative Action Hero Banner -->
             <div class="decision-hero">
               <div class="decision-action-box">
                 <span class="action-label">Authoritative Action</span>
                 <span class="action-badge" id="decision-action-badge">--</span>
               </div>
+              
               <div class="decision-metrics-grid">
                 <div class="dec-metric">
                   <span class="dec-metric-label">Expected Recovery</span>
-                  <span class="dec-metric-val" id="dec-expected-recovery">--</span>
+                  <span class="dec-metric-val text-recovery" id="dec-expected-recovery">--</span>
+                  <span class="dec-metric-sub">Amount × P(success)</span>
                 </div>
                 <div class="dec-metric">
-                  <span class="dec-metric-label">Net Expected Value (after ₹500 ops)</span>
+                  <span class="dec-metric-label">Net Expected Value</span>
                   <span class="dec-metric-val" id="dec-net-value">--</span>
+                  <span class="dec-metric-sub">After ₹500 fixed ops cost</span>
                 </div>
                 <div class="dec-metric">
-                  <span class="dec-metric-label">Guardrail Status</span>
-                  <span class="dec-metric-val" id="dec-guardrail-status">--</span>
+                  <span class="dec-metric-label">Guardrail Policy Status</span>
+                  <span class="dec-metric-val dec-guardrail" id="dec-guardrail-status">--</span>
+                  <span class="dec-metric-sub">Completeness threshold: ≥ 50%</span>
                 </div>
               </div>
             </div>
 
-            <!-- Decision Policy Reasoning Log -->
+            <!-- Decision Basis Table -->
+            <div class="decision-basis-box">
+              <h4>Decision Basis Breakdown</h4>
+              <div class="basis-grid" id="decision-basis-grid">
+                <div class="basis-item">
+                  <span class="basis-label">Contest Probability</span>
+                  <span class="basis-value" id="basis-prob">--%</span>
+                  <span class="basis-rule">Threshold: ≥ 65%</span>
+                </div>
+                <div class="basis-item">
+                  <span class="basis-label">Dispute Amount</span>
+                  <span class="basis-value" id="basis-amount">--</span>
+                  <span class="basis-rule">Gross dispute value</span>
+                </div>
+                <div class="basis-item">
+                  <span class="basis-label">Operational Cost</span>
+                  <span class="basis-value text-muted-cost">₹500.00</span>
+                  <span class="basis-rule">Fixed handling expense</span>
+                </div>
+                <div class="basis-item">
+                  <span class="basis-label">Evidence Readiness</span>
+                  <span class="basis-value" id="basis-evidence">--%</span>
+                  <span class="basis-rule">Guardrail: ≥ 50%</span>
+                </div>
+                <div class="basis-item basis-action-item">
+                  <span class="basis-label">Resulting Action</span>
+                  <span class="basis-value basis-action-val" id="basis-action">--</span>
+                  <span class="basis-rule">Authoritative output</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Policy Rationale & Guardrail Log -->
             <div class="reasoning-box">
-              <h4>Decision Agent Rationale & Guardrail Logs</h4>
+              <h4>Decision Agent Rationale & Guardrail Execution Log</h4>
               <ul class="reasoning-list" id="decision-reasoning-list"></ul>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- STAGE 3: EVIDENCE & DISPUTE DRAFT AGENT -->
-      <div class="pipeline-card" id="stage-evidence">
+      <section class="pipeline-card" id="stage-evidence">
         <div class="stage-header">
           <div class="stage-title-wrap">
             <span class="stage-number">04</span>
             <div>
               <h3>Phase 4 — Evidence & Dispute Agent</h3>
-              <p>Fact Collection, Conflict Validation & Claim Traceability</p>
+              <p>Fact Extraction, Conflict Validation & Claim Traceability</p>
             </div>
           </div>
           <button class="btn btn-action" id="btn-run-evidence" disabled>Generate Evidence Packet</button>
@@ -220,9 +275,10 @@
           </div>
 
           <div class="evidence-results hidden" id="evidence-results">
+            <!-- Packet Status Strip -->
             <div class="evidence-summary-bar">
               <div class="evid-summary-item">
-                <span class="evid-label">Packet Status</span>
+                <span class="evid-label">Evidence Packet Status</span>
                 <span class="badge" id="evid-packet-status">--</span>
               </div>
               <div class="evid-summary-item">
@@ -230,21 +286,27 @@
                 <span class="meter-score" id="evid-completeness-val">--%</span>
               </div>
               <div class="evid-summary-item">
-                <span class="evid-label">Human Review Required</span>
-                <span class="badge badge-warning" id="evid-human-review">YES — MANDATORY</span>
+                <span class="evid-label">Human Review Boundary</span>
+                <span class="badge badge-warning" id="evid-human-review">YES — MANDATORY APPROVAL</span>
               </div>
             </div>
 
-            <!-- Evidence Items Grid -->
+            <!-- Structured Evidence Items (6 Factual Signals) -->
             <div class="evidence-items-section">
-              <h4>Structured Evidence Items (6 Factual Signals)</h4>
+              <div class="evidence-section-header">
+                <h4>Structured Evidence Signals (6 Factual Item Types)</h4>
+                <span class="evidence-header-note">Validated against transaction and fulfillment metadata</span>
+              </div>
               <div class="evidence-cards-grid" id="evidence-cards-grid"></div>
             </div>
 
             <!-- Dispute Response Draft -->
             <div class="dispute-draft-section">
               <div class="draft-header">
-                <h4>Factual Dispute Response Draft</h4>
+                <div>
+                  <h4>Factual Dispute Response Statement</h4>
+                  <p class="draft-sub">Assembled response package prepared for merchant review before network submission</p>
+                </div>
                 <span class="badge badge-info">100% Claim-to-Evidence Traceability</span>
               </div>
               <div class="draft-box">
@@ -259,19 +321,22 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- STAGE 4: AUDIT TRAIL TIMELINE -->
-      <div class="pipeline-card" id="stage-audit">
+      <section class="pipeline-card" id="stage-audit">
         <div class="stage-header">
           <div class="stage-title-wrap">
             <span class="stage-number">05</span>
             <div>
-              <h3>Phase 5 — Audit Trail & Event Log</h3>
-              <p>Immutable Chronological History & Forensic Metadata</p>
+              <h3>Phase 5 — Audit Trail & Forensics Log</h3>
+              <p>Immutable Chronological Lifecycle Transitions & Forensic Metadata</p>
             </div>
           </div>
-          <button class="btn btn-secondary" id="btn-refresh-audit">Refresh Audit</button>
+          <button class="btn btn-secondary" id="btn-refresh-audit">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Refresh Audit Log</span>
+          </button>
         </div>
 
         <div class="stage-body">
@@ -279,7 +344,7 @@
             <p class="text-subtle">No audit events recorded yet.</p>
           </div>
         </div>
-      </div>
+      </section>
 
     </div>
   </main>
@@ -288,14 +353,17 @@
   <div class="modal-overlay hidden" id="modal-create-case">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Create New Dispute Case</h3>
+        <div>
+          <h3>Create New Dispute Case</h3>
+          <p class="modal-subtitle">Inject dispute transaction parameters into the intelligence pipeline</p>
+        </div>
         <button class="modal-close" id="modal-close-btn">&times;</button>
       </div>
       <form id="form-create-case" class="modal-form">
         <div class="form-row">
           <div class="form-group">
             <label for="input-case-id">Custom Case ID (Optional)</label>
-            <input type="text" id="input-case-id" placeholder="e.g. CASE-DEMO-001">
+            <input type="text" id="input-case-id" placeholder="e.g. CASE-2026-001">
           </div>
           <div class="form-group">
             <label for="input-amount">Transaction Amount (INR) *</label>
@@ -315,7 +383,7 @@
             </select>
           </div>
           <div class="form-group checkbox-group">
-            <label for="input-delivery">Delivery Confirmed?</label>
+            <label for="input-delivery">Carrier Delivery Confirmed?</label>
             <input type="checkbox" id="input-delivery" checked>
           </div>
         </div>
@@ -323,22 +391,22 @@
         <div class="form-row">
           <div class="form-group">
             <label for="input-orders">Customer Order Count</label>
-            <input type="number" id="input-orders" value="8">
+            <input type="number" id="input-orders" value="8" min="0">
           </div>
           <div class="form-group">
             <label for="input-prev-disputes">Previous Disputes</label>
-            <input type="number" id="input-prev-disputes" value="0">
+            <input type="number" id="input-prev-disputes" value="0" min="0">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="input-prev-refunds">Previous Refunds</label>
-            <input type="number" id="input-prev-refunds" value="0">
+            <input type="number" id="input-prev-refunds" value="0" min="0">
           </div>
           <div class="form-group">
             <label for="input-refund-ratio">Refund Amount Ratio (0.0 to 1.0)</label>
-            <input type="number" id="input-refund-ratio" step="0.01" value="0.0">
+            <input type="number" id="input-refund-ratio" step="0.01" min="0" max="1" value="0.0">
           </div>
         </div>
 
@@ -355,14 +423,17 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="btn-submit-case">Create & Evaluate</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-case">Create & Evaluate Case</button>
         </div>
       </form>
     </div>
   </div>
 
   <footer class="app-footer">
-    <p>RazorPay Sentinel — Autonomous Dispute Risk & Decision System | Phase 1 to Phase 5 Production Release</p>
+    <div class="footer-content">
+      <p><strong>RazorPay Sentinel</strong> — Autonomous Dispute Risk Intelligence & Decision Orchestration System</p>
+      <p class="footer-sub">ML Win Probability Engine (Phase 1) | Deterministic Financial Policy (Phase 3) | Evidence Assembly Agent (Phase 4) | Forensic Audit Log (Phase 5)</p>
+    </div>
   </footer>
 
   <script src="js/app.js"></script>

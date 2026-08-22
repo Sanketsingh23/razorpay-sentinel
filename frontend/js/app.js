@@ -1,4 +1,7 @@
+// ==========================================================================
 // RazorPay Sentinel Dashboard Application Logic
+// Enterprise Fintech / Risk Operations Console Client
+// ==========================================================================
 
 let activeCase = null;
 let activePrediction = null;
@@ -37,7 +40,7 @@ function setupEventListeners() {
   });
 }
 
-// 1. Health Check
+// 1. System Health Check
 async function checkSystemHealth() {
   const statusDot = document.querySelector('.status-dot');
   const statusText = document.getElementById('system-status-text');
@@ -46,10 +49,10 @@ async function checkSystemHealth() {
     const data = await res.json();
     if (data.status === 'ok') {
       statusDot.className = 'status-dot online';
-      statusText.textContent = `Online (DB: ${data.database}, Model: ${data.model})`;
+      statusText.textContent = `Online (${data.database}, Model: ${data.model})`;
     } else {
       statusDot.className = 'status-dot';
-      statusText.textContent = `Degraded (DB: ${data.database}, Model: ${data.model})`;
+      statusText.textContent = `Degraded (${data.database}, Model: ${data.model})`;
     }
   } catch (err) {
     statusDot.className = 'status-dot error';
@@ -66,17 +69,21 @@ async function loadPresetSamples() {
     container.innerHTML = '';
 
     presets.forEach(preset => {
+      let expectedAction = 'CONTEST';
+      if (preset.preset_id === 'accept_low_value') expectedAction = 'ACCEPT';
+      if (preset.preset_id === 'escalate_low_evidence') expectedAction = 'ESCALATE';
+
       const card = document.createElement('div');
       card.className = 'preset-card';
       card.innerHTML = `
         <div class="preset-card-header">
           <span class="preset-title">${preset.title}</span>
-          <span class="badge badge-case">${preset.preset_id.toUpperCase()}</span>
+          <span class="preset-expected-tag tag-${expectedAction}">${expectedAction}</span>
         </div>
         <p class="preset-desc">${preset.description}</p>
         <div class="preset-card-footer">
-          <span>Click to Load Case &rarr;</span>
-          <span>INR ${preset.data.transaction_amount.toLocaleString()}</span>
+          <span class="preset-amount">₹${preset.data.transaction_amount.toLocaleString()}</span>
+          <span class="preset-action-hint">Click to Load &rarr;</span>
         </div>
       `;
       card.addEventListener('click', async () => {
@@ -95,12 +102,12 @@ async function refreshCaseList() {
     const res = await fetch('/cases?limit=30');
     const cases = await res.json();
     const dropdown = document.getElementById('case-selector-dropdown');
-    dropdown.innerHTML = '<option value="">-- Choose an existing dispute case --</option>';
+    dropdown.innerHTML = '<option value="">-- Select an active dispute case --</option>';
 
     cases.forEach(c => {
       const opt = document.createElement('option');
       opt.value = c.case_id;
-      opt.textContent = `${c.case_id} — ₹${c.transaction_amount.toLocaleString()} (${c.dispute_reason}, ${c.status})`;
+      opt.textContent = `${c.case_id} — ₹${c.transaction_amount.toLocaleString()} [${c.dispute_reason} | ${c.status}]`;
       dropdown.appendChild(opt);
     });
   } catch (err) {
@@ -174,16 +181,25 @@ function setActiveCase(caseData) {
   document.getElementById('active-case-status').textContent = caseData.status;
   document.getElementById('active-case-date').textContent = new Date(caseData.created_at).toLocaleString();
 
-  // Facts Grid
+  // Transaction Intelligence Strip Facts
   document.getElementById('fact-amount').textContent = `₹${caseData.transaction_amount.toLocaleString()}`;
-  document.getElementById('fact-reason').textContent = caseData.dispute_reason;
-  document.getElementById('fact-delivery').textContent = caseData.delivery_confirmed ? '✓ Confirmed' : '✗ Unconfirmed';
-  document.getElementById('fact-delivery').style.color = caseData.delivery_confirmed ? '#34d399' : '#f87171';
-  document.getElementById('fact-orders').textContent = `${caseData.customer_order_count} (Avg: ₹${caseData.customer_avg_order_value.toLocaleString()})`;
+  document.getElementById('fact-reason').textContent = `Category: ${caseData.dispute_reason}`;
+  
+  const deliveryEl = document.getElementById('fact-delivery');
+  if (caseData.delivery_confirmed) {
+    deliveryEl.textContent = `✓ Confirmed (${caseData.delivery_delay_days || 0}d delay)`;
+    deliveryEl.style.color = '#34d399';
+  } else {
+    deliveryEl.textContent = '✗ Unconfirmed Proof';
+    deliveryEl.style.color = '#f87171';
+  }
+
+  const avgOrderVal = caseData.customer_avg_order_value ? Math.round(caseData.customer_avg_order_value).toLocaleString() : '0';
+  document.getElementById('fact-orders').textContent = `${caseData.customer_order_count} orders (Avg ₹${avgOrderVal})`;
   document.getElementById('fact-history').textContent = `${caseData.previous_refunds} refunds / ${caseData.previous_disputes} disputes`;
   document.getElementById('fact-evidence').textContent = `${caseData.evidence_items_available} avail / ${caseData.evidence_items_missing} miss (${(caseData.evidence_completeness * 100).toFixed(0)}%)`;
 
-  // Buttons & Stages setup
+  // Buttons & Stages Setup
   document.getElementById('btn-run-predict').disabled = false;
   
   if (activePrediction) {
@@ -198,8 +214,29 @@ function setActiveCase(caseData) {
     renderDecision(activeDecision);
     if (activeDecision.action === 'CONTEST') {
       document.getElementById('btn-run-evidence').disabled = false;
-    } else {
+      document.getElementById('evidence-empty-state').innerHTML = '<p>Click <strong>Generate Evidence Packet</strong> to compile 6 verified signals and draft the contest response statement.</p>';
+    } else if (activeDecision.action === 'ACCEPT') {
       document.getElementById('btn-run-evidence').disabled = true;
+      document.getElementById('evidence-empty-state').innerHTML = `
+        <div class="workflow-standby-box">
+          <span class="standby-icon">ℹ️</span>
+          <div>
+            <strong>Evidence Assembly Bypassed</strong>
+            <p>Decision Agent determined <strong>ACCEPT</strong>. Dispute is conceded to prevent operational cost deficit; no evidence response packet is required.</p>
+          </div>
+        </div>
+      `;
+    } else if (activeDecision.action === 'ESCALATE') {
+      document.getElementById('btn-run-evidence').disabled = true;
+      document.getElementById('evidence-empty-state').innerHTML = `
+        <div class="workflow-standby-box">
+          <span class="standby-icon">⚠️</span>
+          <div>
+            <strong>Dispute Flagged for Manual Investigation</strong>
+            <p>Decision Agent determined <strong>ESCALATE</strong> due to policy guardrails or uncertainty. Automated submission is held for risk analyst review.</p>
+          </div>
+        </div>
+      `;
     }
   } else {
     resetDecisionUI();
@@ -215,7 +252,7 @@ function setActiveCase(caseData) {
   loadCaseAudit(caseData.case_id);
 }
 
-// 6. Predict Execution
+// 6. Predict Execution (ML Risk Engine)
 async function handleRunPredict() {
   if (!activeCase) return;
   const btn = document.getElementById('btn-run-predict');
@@ -289,7 +326,7 @@ function resetPredictionUI() {
   document.getElementById('risk-results').classList.add('hidden');
 }
 
-// 7. Decision Execution
+// 7. Decision Execution (Decision Policy Agent)
 async function handleRunDecide() {
   if (!activeCase) return;
   const btn = document.getElementById('btn-run-decide');
@@ -309,8 +346,29 @@ async function handleRunDecide() {
     
     if (dec.action === 'CONTEST') {
       document.getElementById('btn-run-evidence').disabled = false;
-    } else {
+      document.getElementById('evidence-empty-state').innerHTML = '<p>Click <strong>Generate Evidence Packet</strong> to compile 6 verified signals and draft the contest response statement.</p>';
+    } else if (dec.action === 'ACCEPT') {
       document.getElementById('btn-run-evidence').disabled = true;
+      document.getElementById('evidence-empty-state').innerHTML = `
+        <div class="workflow-standby-box">
+          <span class="standby-icon">ℹ️</span>
+          <div>
+            <strong>Evidence Assembly Bypassed</strong>
+            <p>Decision Agent determined <strong>ACCEPT</strong>. Dispute is conceded to prevent operational cost deficit; no evidence response packet is required.</p>
+          </div>
+        </div>
+      `;
+    } else if (dec.action === 'ESCALATE') {
+      document.getElementById('btn-run-evidence').disabled = true;
+      document.getElementById('evidence-empty-state').innerHTML = `
+        <div class="workflow-standby-box">
+          <span class="standby-icon">⚠️</span>
+          <div>
+            <strong>Dispute Flagged for Manual Investigation</strong>
+            <p>Decision Agent determined <strong>ESCALATE</strong> due to policy guardrails or uncertainty. Automated submission is held for risk analyst review.</p>
+          </div>
+        </div>
+      `;
     }
     loadCaseAudit(activeCase.case_id);
   } catch (err) {
@@ -329,18 +387,34 @@ function renderDecision(dec) {
   badge.textContent = dec.action;
   badge.className = `action-badge action-${dec.action}`;
 
+  // Metrics
   document.getElementById('dec-expected-recovery').textContent = `₹${Math.round(dec.expected_recovery).toLocaleString()}`;
-  document.getElementById('dec-net-value').textContent = `₹${Math.round(dec.expected_value).toLocaleString()}`;
+  
+  const netValEl = document.getElementById('dec-net-value');
+  const netValFormatted = Math.round(dec.expected_value);
+  netValEl.textContent = `${netValFormatted >= 0 ? '+' : ''}₹${netValFormatted.toLocaleString()}`;
+  netValEl.style.color = netValFormatted >= 100 ? '#34d399' : netValFormatted < 0 ? '#f87171' : '#fbbf24';
   
   const guardrailStatus = document.getElementById('dec-guardrail-status');
   if (dec.guardrail_triggered) {
-    guardrailStatus.textContent = '⚠️ GUARDRAIL TRIGGERED (Forced Escalate)';
+    guardrailStatus.textContent = '⚠️ Triggered (< 50% Evidence)';
     guardrailStatus.style.color = '#fbbf24';
   } else {
-    guardrailStatus.textContent = '✓ Standard Policy Rules Passed';
+    guardrailStatus.textContent = '✓ Passed (Completeness ≥ 50%)';
     guardrailStatus.style.color = '#34d399';
   }
 
+  // Decision Basis Strip
+  if (activePrediction) {
+    document.getElementById('basis-prob').textContent = `${(activePrediction.contest_probability * 100).toFixed(1)}%`;
+  }
+  if (activeCase) {
+    document.getElementById('basis-amount').textContent = `₹${activeCase.transaction_amount.toLocaleString()}`;
+  }
+  document.getElementById('basis-evidence').textContent = `${(dec.evidence_completeness * 100).toFixed(0)}%`;
+  document.getElementById('basis-action').textContent = dec.action;
+
+  // Reasoning log
   const list = document.getElementById('decision-reasoning-list');
   list.innerHTML = '';
   (dec.reasoning || []).forEach(r => {
@@ -355,7 +429,7 @@ function resetDecisionUI() {
   document.getElementById('decision-results').classList.add('hidden');
 }
 
-// 8. Evidence Execution
+// 8. Evidence Execution (Evidence & Dispute Agent)
 async function handleRunEvidence() {
   if (!activeCase) return;
   const btn = document.getElementById('btn-run-evidence');
@@ -404,7 +478,7 @@ function renderEvidence(evid) {
       </div>
       <div class="evid-title">${item.type.replace(/_/g, ' ').toUpperCase()}</div>
       <div class="evid-summary">${item.summary}</div>
-      <div class="text-subtle" style="font-size:0.7rem;">Source: ${item.source} | Relevance: ${item.relevance}</div>
+      <div class="evid-source">Source: ${item.source} | Relevance: ${item.relevance}</div>
     `;
     grid.appendChild(card);
   });
@@ -448,12 +522,17 @@ async function loadCaseAudit(caseId) {
     events.forEach(evt => {
       const item = document.createElement('div');
       item.className = 'timeline-event';
+      
+      const payloadLines = Object.entries(evt.metadata_payload || {})
+        .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+        .join(' | ');
+
       item.innerHTML = `
         <div class="timeline-event-header">
           <span class="timeline-type">${evt.event_type}</span>
           <span class="timeline-time">${new Date(evt.event_timestamp).toLocaleTimeString()}</span>
         </div>
-        <div class="timeline-meta">${JSON.stringify(evt.metadata_payload, null, 2)}</div>
+        <div class="timeline-meta">${payloadLines || 'No payload'}</div>
       `;
       timeline.appendChild(item);
     });
