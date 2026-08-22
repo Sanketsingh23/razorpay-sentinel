@@ -269,7 +269,8 @@ function renderPrediction(pred) {
   posList.innerHTML = '';
   (pred.positive_factors || []).forEach(pf => {
     const li = document.createElement('li');
-    li.textContent = `+ ${pf}`;
+    const cleanText = pf.replace(/^(\+\s*)+/, '').trim();
+    li.textContent = `+ ${cleanText}`;
     posList.appendChild(li);
   });
 
@@ -277,7 +278,8 @@ function renderPrediction(pred) {
   negList.innerHTML = '';
   (pred.negative_factors || []).forEach(nf => {
     const li = document.createElement('li');
-    li.textContent = `- ${nf}`;
+    const cleanText = nf.replace(/^(-\s*)+/, '').trim();
+    li.textContent = `- ${cleanText}`;
     negList.appendChild(li);
   });
 }
