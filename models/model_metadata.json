@@ -1,0 +1,73 @@
+{
+  "project": "RazorPay Sentinel",
+  "data_type": "SYNTHETIC DEVELOPMENT DATA",
+  "target_definition": "1 = dispute FULLY REVERSED in merchant's favor, 0 = otherwise",
+  "architecture_note": "The ML model outputs P(success) and reason codes ONLY. The ACCEPT/ESCALATE/CONTEST decision is made by the separate decision_policy.py module. The model NEVER decides the action.",
+  "winner": "Logistic Regression",
+  "model_type": "Logistic Regression",
+  "features": [
+    "transaction_amount",
+    "customer_order_count",
+    "previous_refunds",
+    "previous_disputes",
+    "delivery_confirmed",
+    "delivery_delay_days",
+    "dispute_delay_days",
+    "customer_avg_order_value",
+    "communication_count",
+    "refund_amount_ratio",
+    "payment_failures",
+    "evidence_items_available",
+    "evidence_items_missing",
+    "evidence_completeness",
+    "reason_defective",
+    "reason_duplicate",
+    "reason_item_not_received",
+    "reason_other",
+    "reason_unauthorized"
+  ],
+  "numeric_features": [
+    "transaction_amount",
+    "customer_order_count",
+    "previous_refunds",
+    "previous_disputes",
+    "delivery_confirmed",
+    "delivery_delay_days",
+    "dispute_delay_days",
+    "customer_avg_order_value",
+    "communication_count",
+    "refund_amount_ratio",
+    "payment_failures",
+    "evidence_items_available",
+    "evidence_items_missing",
+    "evidence_completeness"
+  ],
+  "target": "contest_success",
+  "optimal_threshold": 0.4,
+  "needs_scaler": true,
+  "recalibrated": false,
+  "selection_method": "multi-criteria (calibration + cost-sensitive + discrimination)",
+  "selection_scores": {
+    "Logistic Regression": 5,
+    "XGBoost": 0
+  },
+  "selection_reasons": [
+    "  Calibration (Brier): LR 0.1195 < XGB 0.1284 -> +1 LR",
+    "  Calibration (ECE): LR 0.0198 < XGB 0.0358 -> +1 LR",
+    "  Cost-sensitive: LR 2,767,449 < XGB 3,035,470 -> +1 LR",
+    "  ROC-AUC: LR 0.9019 > XGB 0.8923 -> +1 LR",
+    "  PR-AUC: LR 0.9065 > XGB 0.8954 -> +1 LR"
+  ],
+  "training_samples": 6000,
+  "validation_samples": 2000,
+  "test_samples": 2000,
+  "training_date": "2026-08-22T06:23:18.098059",
+  "cost_parameters": {
+    "contest_operational_cost": 500,
+    "false_contest_cost": 1000,
+    "missed_recovery_cost_multiplier": 1.0,
+    "escalation_cost": 200
+  },
+  "calibration_ece_threshold": 0.05,
+  "threshold_selection_method": "Maximize F1 with precision >= 0.70, recall >= 0.75 on validation set"
+}

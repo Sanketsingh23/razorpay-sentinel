@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RazorPay Sentinel — Dispute Risk Intelligence & Orchestration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-badge">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>RazorPay <span class="accent-text">Sentinel</span></h1>
+        <p class="tagline">Dispute Risk Intelligence & Decision Orchestration</p>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="system-status" id="system-status-indicator">
+        <span class="status-dot"></span>
+        <span id="system-status-text">Connecting...</span>
+      </div>
+      <button class="btn btn-primary" id="btn-new-case">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Create Case
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dashboard-container">
+    
+    <!-- Demo Presets Bar -->
+    <section class="preset-section">
+      <div class="section-title-row">
+        <h2>⚡ Demonstration Presets (1-Click Evaluation)</h2>
+        <span class="preset-hint">Load pre-configured dispute profiles directly into the pipeline</span>
+      </div>
+      <div class="preset-grid" id="preset-grid">
+        <!-- Preset Cards injected via JS -->
+      </div>
+    </section>
+
+    <!-- Active Case Banner / Selector -->
+    <section class="case-banner">
+      <div class="banner-top">
+        <div class="case-meta-primary">
+          <span class="badge badge-case" id="active-case-id">No Case Selected</span>
+          <span class="badge badge-status" id="active-case-status">IDLE</span>
+          <span class="badge badge-date" id="active-case-date">--</span>
+        </div>
+        <div class="case-switcher">
+          <label for="case-selector-dropdown">Select Existing Case:</label>
+          <select id="case-selector-dropdown" class="select-input">
+            <option value="">Loading cases...</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Case Fact Grid -->
+      <div class="fact-grid" id="fact-grid">
+        <div class="fact-card">
+          <span class="fact-label">Transaction Amount</span>
+          <span class="fact-value" id="fact-amount">--</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Dispute Reason</span>
+          <span class="fact-value" id="fact-reason">--</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Delivery Proof</span>
+          <span class="fact-value" id="fact-delivery">--</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Customer Orders / Avg</span>
+          <span class="fact-value" id="fact-orders">--</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Prior Refunds / Disputes</span>
+          <span class="fact-value" id="fact-history">--</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Evidence Ratio</span>
+          <span class="fact-value" id="fact-evidence">--</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pipeline Stages -->
+    <div class="pipeline-grid">
+
+      <!-- STAGE 1: ML RISK ENGINE -->
+      <div class="pipeline-card" id="stage-risk">
+        <div class="stage-header">
+          <div class="stage-title-wrap">
+            <span class="stage-number">01</span>
+            <div>
+              <h3>Phase 1 — ML Risk Engine</h3>
+              <p>Calibrated Contest Probability & Signed Factor Weights</p>
+            </div>
+          </div>
+          <button class="btn btn-action" id="btn-run-predict" disabled>Run Risk Model</button>
+        </div>
+
+        <div class="stage-body" id="stage-risk-body">
+          <div class="empty-state" id="risk-empty-state">
+            <p>Select or create a dispute case to evaluate contest probability.</p>
+          </div>
+          
+          <div class="risk-results hidden" id="risk-results">
+            <div class="risk-meter-wrap">
+              <div class="meter-score-row">
+                <span class="meter-label">Contest Success Probability</span>
+                <span class="meter-score" id="risk-prob-value">--%</span>
+              </div>
+              <div class="meter-bar-track">
+                <div class="meter-bar-fill" id="risk-prob-bar"></div>
+              </div>
+              <div class="risk-badge-row">
+                <span class="badge" id="risk-level-badge">RISK LEVEL: --</span>
+                <span class="text-subtle" id="risk-model-ver">Model: LogisticRegression v1.0</span>
+              </div>
+            </div>
+
+            <!-- Model-Derived Reason Codes -->
+            <div class="factor-group">
+              <h4>Model-Derived Reason Codes & Features</h4>
+              <div class="reason-tags" id="reason-codes-tags"></div>
+              
+              <div class="factors-split">
+                <div class="factor-col positive-col">
+                  <h5>Positive Supporting Factors</h5>
+                  <ul class="factor-list" id="positive-factors-list"></ul>
+                </div>
+                <div class="factor-col negative-col">
+                  <h5>Negative Risk Factors</h5>
+                  <ul class="factor-list" id="negative-factors-list"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 2: DECISION AGENT -->
+      <div class="pipeline-card" id="stage-decision">
+        <div class="stage-header">
+          <div class="stage-title-wrap">
+            <span class="stage-number">02</span>
+            <div>
+              <h3>Phase 3 — Decision Agent</h3>
+              <p>Deterministic Economics, Policy Guardrails & Reasoning</p>
+            </div>
+          </div>
+          <button class="btn btn-action" id="btn-run-decide" disabled>Run Decision Policy</button>
+        </div>
+
+        <div class="stage-body" id="stage-decision-body">
+          <div class="empty-state" id="decision-empty-state">
+            <p>Run the ML Risk Engine first to enable Decision Policy evaluation.</p>
+          </div>
+
+          <div class="decision-results hidden" id="decision-results">
+            <div class="decision-hero">
+              <div class="decision-action-box">
+                <span class="action-label">Authoritative Action</span>
+                <span class="action-badge" id="decision-action-badge">--</span>
+              </div>
+              <div class="decision-metrics-grid">
+                <div class="dec-metric">
+                  <span class="dec-metric-label">Expected Recovery</span>
+                  <span class="dec-metric-val" id="dec-expected-recovery">--</span>
+                </div>
+                <div class="dec-metric">
+                  <span class="dec-metric-label">Net Expected Value (after ₹500 ops)</span>
+                  <span class="dec-metric-val" id="dec-net-value">--</span>
+                </div>
+                <div class="dec-metric">
+                  <span class="dec-metric-label">Guardrail Status</span>
+                  <span class="dec-metric-val" id="dec-guardrail-status">--</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Policy Reasoning Log -->
+            <div class="reasoning-box">
+              <h4>Decision Agent Rationale & Guardrail Logs</h4>
+              <ul class="reasoning-list" id="decision-reasoning-list"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3: EVIDENCE & DISPUTE DRAFT AGENT -->
+      <div class="pipeline-card" id="stage-evidence">
+        <div class="stage-header">
+          <div class="stage-title-wrap">
+            <span class="stage-number">03</span>
+            <div>
+              <h3>Phase 4 — Evidence & Dispute Agent</h3>
+              <p>Fact Collection, Conflict Validation & Claim Traceability</p>
+            </div>
+          </div>
+          <button class="btn btn-action" id="btn-run-evidence" disabled>Generate Evidence Packet</button>
+        </div>
+
+        <div class="stage-body" id="stage-evidence-body">
+          <div class="empty-state" id="evidence-empty-state">
+            <p>Evidence Workflow only executes when Phase 3 determines a <strong>CONTEST</strong> action.</p>
+          </div>
+
+          <div class="evidence-results hidden" id="evidence-results">
+            <div class="evidence-summary-bar">
+              <div class="evid-summary-item">
+                <span class="evid-label">Packet Status</span>
+                <span class="badge" id="evid-packet-status">--</span>
+              </div>
+              <div class="evid-summary-item">
+                <span class="evid-label">Deterministic Completeness</span>
+                <span class="meter-score" id="evid-completeness-val">--%</span>
+              </div>
+              <div class="evid-summary-item">
+                <span class="evid-label">Human Review Required</span>
+                <span class="badge badge-warning" id="evid-human-review">YES — MANDATORY</span>
+              </div>
+            </div>
+
+            <!-- Evidence Items Grid -->
+            <div class="evidence-items-section">
+              <h4>Structured Evidence Items (6 Factual Signals)</h4>
+              <div class="evidence-cards-grid" id="evidence-cards-grid"></div>
+            </div>
+
+            <!-- Dispute Response Draft -->
+            <div class="dispute-draft-section">
+              <div class="draft-header">
+                <h4>Factual Dispute Response Draft</h4>
+                <span class="badge badge-info">100% Claim-to-Evidence Traceability</span>
+              </div>
+              <div class="draft-box">
+                <pre class="draft-text" id="draft-statement-text"></pre>
+              </div>
+
+              <!-- Interactive Claim Inspector -->
+              <div class="claims-inspector">
+                <h5>Source Evidence Citations</h5>
+                <div class="claims-table" id="claims-table"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 4: AUDIT TRAIL TIMELINE -->
+      <div class="pipeline-card" id="stage-audit">
+        <div class="stage-header">
+          <div class="stage-title-wrap">
+            <span class="stage-number">04</span>
+            <div>
+              <h3>Audit Trail & Event Log</h3>
+              <p>Immutable Chronological History & Forensic Metadata</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="btn-refresh-audit">Refresh Audit</button>
+        </div>
+
+        <div class="stage-body">
+          <div class="timeline" id="audit-timeline">
+            <p class="text-subtle">No audit events recorded yet.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Create Custom Case Modal -->
+  <div class="modal-overlay hidden" id="modal-create-case">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Dispute Case</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="form-create-case" class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-case-id">Custom Case ID (Optional)</label>
+            <input type="text" id="input-case-id" placeholder="e.g. CASE-DEMO-001">
+          </div>
+          <div class="form-group">
+            <label for="input-amount">Transaction Amount (INR) *</label>
+            <input type="number" id="input-amount" step="0.01" value="75000" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-reason">Dispute Reason *</label>
+            <select id="input-reason" class="select-input">
+              <option value="item_not_received">item_not_received</option>
+              <option value="unauthorized">unauthorized</option>
+              <option value="defective">defective</option>
+              <option value="duplicate">duplicate</option>
+              <option value="other">other</option>
+            </select>
+          </div>
+          <div class="form-group checkbox-group">
+            <label for="input-delivery">Delivery Confirmed?</label>
+            <input type="checkbox" id="input-delivery" checked>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-orders">Customer Order Count</label>
+            <input type="number" id="input-orders" value="8">
+          </div>
+          <div class="form-group">
+            <label for="input-prev-disputes">Previous Disputes</label>
+            <input type="number" id="input-prev-disputes" value="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-prev-refunds">Previous Refunds</label>
+            <input type="number" id="input-prev-refunds" value="0">
+          </div>
+          <div class="form-group">
+            <label for="input-refund-ratio">Refund Amount Ratio (0.0 to 1.0)</label>
+            <input type="number" id="input-refund-ratio" step="0.01" value="0.0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-evid-avail">Available Evidence Items (0 to 6)</label>
+            <input type="number" id="input-evid-avail" min="0" max="6" value="5">
+          </div>
+          <div class="form-group">
+            <label for="input-evid-miss">Missing Evidence Items (0 to 6)</label>
+            <input type="number" id="input-evid-miss" min="0" max="6" value="1">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-case">Create & Evaluate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>RazorPay Sentinel — Autonomous Dispute Risk & Decision System | Phase 1 to Phase 5 Production Release</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

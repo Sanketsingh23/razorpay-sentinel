@@ -1,0 +1,571 @@
+{
+  "project": "RazorPay Sentinel",
+  "phase": "Phase 1 -- Risk Intelligence Core",
+  "data_type": "SYNTHETIC DEVELOPMENT METRICS",
+  "warning": "ALL metrics in this report are from SYNTHETIC development data. They do NOT represent real-world Razorpay performance.",
+  "report_date": "2026-08-22T06:23:38.252996",
+  "model": {
+    "type": "Logistic Regression (L2 regularized)",
+    "target": "contest_success (1 = dispute FULLY REVERSED, 0 = otherwise)",
+    "features_count": 19,
+    "features": [
+      "transaction_amount",
+      "customer_order_count",
+      "previous_refunds",
+      "previous_disputes",
+      "delivery_confirmed",
+      "delivery_delay_days",
+      "dispute_delay_days",
+      "customer_avg_order_value",
+      "communication_count",
+      "refund_amount_ratio",
+      "payment_failures",
+      "evidence_items_available",
+      "evidence_items_missing",
+      "evidence_completeness",
+      "reason_defective",
+      "reason_duplicate",
+      "reason_item_not_received",
+      "reason_other",
+      "reason_unauthorized"
+    ],
+    "training_samples": 6000,
+    "validation_samples": 2000,
+    "test_samples": 2000,
+    "recalibrated": false,
+    "reason_codes_method": "Logistic Regression signed coefficients (coef_ * scaled_feature_value)"
+  },
+  "threshold_selection": {
+    "method": "Maximize F1 with precision >= 0.70 and recall >= 0.75 on validation set",
+    "selected_threshold": 0.4,
+    "threshold_comparison_table": [
+      {
+        "threshold": 0.05,
+        "precision": 0.6249,
+        "recall": 0.9928,
+        "f1": 0.767,
+        "tp": 1106,
+        "fp": 664,
+        "tn": 222,
+        "fn": 8,
+        "fp_cost": 664000,
+        "fn_cost": 108211.0,
+        "total_cost": 772211.0,
+        "gross_recovery": 28616960.0,
+        "net_recovery": 27399960.0,
+        "automation_rate": 0.664,
+        "contest_rate": 0.885
+      },
+      {
+        "threshold": 0.1,
+        "precision": 0.6759,
+        "recall": 0.9829,
+        "f1": 0.801,
+        "tp": 1095,
+        "fp": 525,
+        "tn": 361,
+        "fn": 19,
+        "fp_cost": 525000,
+        "fn_cost": 541010.0,
+        "total_cost": 1066010.0,
+        "gross_recovery": 28184161.0,
+        "net_recovery": 27111661.0,
+        "automation_rate": 0.728,
+        "contest_rate": 0.81
+      },
+      {
+        "threshold": 0.15,
+        "precision": 0.7124,
+        "recall": 0.974,
+        "f1": 0.8229,
+        "tp": 1085,
+        "fp": 438,
+        "tn": 448,
+        "fn": 29,
+        "fp_cost": 438000,
+        "fn_cost": 943562.0,
+        "total_cost": 1381562.0,
+        "gross_recovery": 27781609.0,
+        "net_recovery": 26801109.0,
+        "automation_rate": 0.7665,
+        "contest_rate": 0.7615
+      },
+      {
+        "threshold": 0.2,
+        "precision": 0.7378,
+        "recall": 0.9623,
+        "f1": 0.8352,
+        "tp": 1072,
+        "fp": 381,
+        "tn": 505,
+        "fn": 42,
+        "fp_cost": 381000,
+        "fn_cost": 1557073.0,
+        "total_cost": 1938073.0,
+        "gross_recovery": 27168098.0,
+        "net_recovery": 26251098.0,
+        "automation_rate": 0.7885,
+        "contest_rate": 0.7265
+      },
+      {
+        "threshold": 0.25,
+        "precision": 0.7607,
+        "recall": 0.956,
+        "f1": 0.8473,
+        "tp": 1065,
+        "fp": 335,
+        "tn": 551,
+        "fn": 49,
+        "fp_cost": 335000,
+        "fn_cost": 1780186.0,
+        "total_cost": 2115186.0,
+        "gross_recovery": 26944985.0,
+        "net_recovery": 26077485.0,
+        "automation_rate": 0.808,
+        "contest_rate": 0.7
+      },
+      {
+        "threshold": 0.3,
+        "precision": 0.7815,
+        "recall": 0.9506,
+        "f1": 0.8578,
+        "tp": 1059,
+        "fp": 296,
+        "tn": 590,
+        "fn": 55,
+        "fp_cost": 296000,
+        "fn_cost": 1913883.0,
+        "total_cost": 2209883.0,
+        "gross_recovery": 26811288.0,
+        "net_recovery": 25985788.0,
+        "automation_rate": 0.8245,
+        "contest_rate": 0.6775
+      },
+      {
+        "threshold": 0.35,
+        "precision": 0.7968,
+        "recall": 0.9434,
+        "f1": 0.864,
+        "tp": 1051,
+        "fp": 268,
+        "tn": 618,
+        "fn": 63,
+        "fp_cost": 268000,
+        "fn_cost": 2092882.0,
+        "total_cost": 2360882.0,
+        "gross_recovery": 26632289.0,
+        "net_recovery": 25838789.0,
+        "automation_rate": 0.8345,
+        "contest_rate": 0.6595
+      },
+      {
+        "threshold": 0.4,
+        "precision": 0.8133,
+        "recall": 0.9309,
+        "f1": 0.8681,
+        "tp": 1037,
+        "fp": 238,
+        "tn": 648,
+        "fn": 77,
+        "fp_cost": 238000,
+        "fn_cost": 2529449.0,
+        "total_cost": 2767449.0,
+        "gross_recovery": 26195722.0,
+        "net_recovery": 25439222.0,
+        "automation_rate": 0.8425,
+        "contest_rate": 0.6375
+      },
+      {
+        "threshold": 0.45,
+        "precision": 0.8252,
+        "recall": 0.9156,
+        "f1": 0.8681,
+        "tp": 1020,
+        "fp": 216,
+        "tn": 670,
+        "fn": 94,
+        "fp_cost": 216000,
+        "fn_cost": 3040870.0,
+        "total_cost": 3256870.0,
+        "gross_recovery": 25684301.0,
+        "net_recovery": 24958301.0,
+        "automation_rate": 0.845,
+        "contest_rate": 0.618
+      },
+      {
+        "threshold": 0.5,
+        "precision": 0.8315,
+        "recall": 0.8995,
+        "f1": 0.8642,
+        "tp": 1002,
+        "fp": 203,
+        "tn": 683,
+        "fn": 112,
+        "fp_cost": 203000,
+        "fn_cost": 3413862.0,
+        "total_cost": 3616862.0,
+        "gross_recovery": 25311309.0,
+        "net_recovery": 24607309.0,
+        "automation_rate": 0.8425,
+        "contest_rate": 0.6025
+      },
+      {
+        "threshold": 0.55,
+        "precision": 0.8432,
+        "recall": 0.8833,
+        "f1": 0.8628,
+        "tp": 984,
+        "fp": 183,
+        "tn": 703,
+        "fn": 130,
+        "fp_cost": 183000,
+        "fn_cost": 3926998.0,
+        "total_cost": 4109998.0,
+        "gross_recovery": 24798173.0,
+        "net_recovery": 24123173.0,
+        "automation_rate": 0.8435,
+        "contest_rate": 0.5835
+      },
+      {
+        "threshold": 0.6,
+        "precision": 0.847,
+        "recall": 0.8501,
+        "f1": 0.8486,
+        "tp": 947,
+        "fp": 171,
+        "tn": 715,
+        "fn": 167,
+        "fp_cost": 171000,
+        "fn_cost": 5104491.0,
+        "total_cost": 5275491.0,
+        "gross_recovery": 23620680.0,
+        "net_recovery": 22976180.0,
+        "automation_rate": 0.831,
+        "contest_rate": 0.559
+      },
+      {
+        "threshold": 0.65,
+        "precision": 0.859,
+        "recall": 0.8151,
+        "f1": 0.8365,
+        "tp": 908,
+        "fp": 149,
+        "tn": 737,
+        "fn": 206,
+        "fp_cost": 149000,
+        "fn_cost": 5779925.0,
+        "total_cost": 5928925.0,
+        "gross_recovery": 22945246.0,
+        "net_recovery": 22342246.0,
+        "automation_rate": 0.8225,
+        "contest_rate": 0.5285
+      },
+      {
+        "threshold": 0.7,
+        "precision": 0.8735,
+        "recall": 0.7684,
+        "f1": 0.8176,
+        "tp": 856,
+        "fp": 124,
+        "tn": 762,
+        "fn": 258,
+        "fp_cost": 124000,
+        "fn_cost": 6779547.0,
+        "total_cost": 6903547.0,
+        "gross_recovery": 21945624.0,
+        "net_recovery": 21393624.0,
+        "automation_rate": 0.809,
+        "contest_rate": 0.49
+      },
+      {
+        "threshold": 0.75,
+        "precision": 0.8858,
+        "recall": 0.6966,
+        "f1": 0.7799,
+        "tp": 776,
+        "fp": 100,
+        "tn": 786,
+        "fn": 338,
+        "fp_cost": 100000,
+        "fn_cost": 8981186.0,
+        "total_cost": 9081186.0,
+        "gross_recovery": 19743985.0,
+        "net_recovery": 19255985.0,
+        "automation_rate": 0.781,
+        "contest_rate": 0.438
+      },
+      {
+        "threshold": 0.8,
+        "precision": 0.9041,
+        "recall": 0.6176,
+        "f1": 0.7339,
+        "tp": 688,
+        "fp": 73,
+        "tn": 813,
+        "fn": 426,
+        "fp_cost": 73000,
+        "fn_cost": 11571436.0,
+        "total_cost": 11644436.0,
+        "gross_recovery": 17153735.0,
+        "net_recovery": 16736735.0,
+        "automation_rate": 0.7505,
+        "contest_rate": 0.3805
+      }
+    ],
+    "rationale": "Threshold 0.4 was selected because it achieves precision=0.8133 and recall=0.9309 (F1=0.8681). The pure cost-minimizing threshold (0.06) was rejected because it produces precision=0.62, meaning 38% of contests are wasted."
+  },
+  "cost_analysis": {
+    "selected_threshold": 0.4,
+    "cost_assumptions": {
+      "false_contest_cost_per_case": 1000,
+      "false_contest_explanation": "Estimated cost when we contest a dispute we cannot win. Includes wasted operational effort, staff time, and minor reputation risk. This is a DEVELOPMENT ASSUMPTION.",
+      "missed_recovery_method": "transaction_amount",
+      "missed_recovery_explanation": "When we ACCEPT a dispute we could have won, we lose the full transaction amount. This is the opportunity cost. In practice this should be discounted by the probability of success, but for threshold selection we use it as the FN penalty.",
+      "escalation_cost_per_case": 200,
+      "escalation_explanation": "Cost of routing a case to human review. Includes analyst time and delay. This is a DEVELOPMENT ASSUMPTION.",
+      "contest_operational_cost": 500,
+      "operational_explanation": "Fixed cost of running the contest workflow (evidence gathering, response drafting, submission). This is a DEVELOPMENT ASSUMPTION.",
+      "note": "ALL cost parameters are development assumptions. They must be calibrated with real operational data before production use."
+    },
+    "at_selected_threshold": {
+      "precision": 0.8133,
+      "recall": 0.9309,
+      "f1": 0.8681,
+      "true_positives": 1037,
+      "false_positives": 238,
+      "true_negatives": 648,
+      "false_negatives": 77,
+      "cost_of_false_contests": 238000.0,
+      "cost_of_missed_recoveries": 2529449.0,
+      "total_cost": 2767449.0,
+      "gross_recovery_from_true_contests": 26195722.0,
+      "net_recovery_after_costs": 25439222.0,
+      "contest_rate": 0.6375,
+      "automation_rate": 0.8425
+    },
+    "interpretation": {
+      "false_contest_meaning": "238 cases would be contested but lost. Cost: 238,000 in wasted operational effort.",
+      "missed_recovery_meaning": "77 winnable cases would be incorrectly accepted. Opportunity cost: 2,529,449 in unrecovered funds.",
+      "net_outcome": "Gross recovery: 26,195,722. After subtracting contest costs and false contest costs, net recovery: 25,439,222."
+    }
+  },
+  "calibration": {
+    "validation": {
+      "brier_score": 0.1195,
+      "ece": 0.0198,
+      "interpretation": "Brier score: 0.1195 (lower is better, 0 = perfect). ECE: 0.0198 (lower is better, 0 = perfectly calibrated). The model's predicted probabilities closely match observed frequencies.",
+      "bin_analysis": [
+        {
+          "bin": "0.0-0.1",
+          "count": 380,
+          "observed_frequency": 0.05,
+          "mean_predicted": 0.0438,
+          "absolute_error": 0.0062
+        },
+        {
+          "bin": "0.1-0.2",
+          "count": 167,
+          "observed_frequency": 0.1377,
+          "mean_predicted": 0.1459,
+          "absolute_error": 0.0081
+        },
+        {
+          "bin": "0.2-0.3",
+          "count": 98,
+          "observed_frequency": 0.1327,
+          "mean_predicted": 0.2461,
+          "absolute_error": 0.1135
+        },
+        {
+          "bin": "0.3-0.4",
+          "count": 80,
+          "observed_frequency": 0.275,
+          "mean_predicted": 0.3515,
+          "absolute_error": 0.0765
+        },
+        {
+          "bin": "0.4-0.5",
+          "count": 70,
+          "observed_frequency": 0.5,
+          "mean_predicted": 0.4506,
+          "absolute_error": 0.0494
+        },
+        {
+          "bin": "0.5-0.6",
+          "count": 87,
+          "observed_frequency": 0.6322,
+          "mean_predicted": 0.5519,
+          "absolute_error": 0.0802
+        },
+        {
+          "bin": "0.6-0.7",
+          "count": 138,
+          "observed_frequency": 0.6594,
+          "mean_predicted": 0.654,
+          "absolute_error": 0.0054
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 219,
+          "observed_frequency": 0.7671,
+          "mean_predicted": 0.7531,
+          "absolute_error": 0.014
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 359,
+          "observed_frequency": 0.8579,
+          "mean_predicted": 0.8529,
+          "absolute_error": 0.0051
+        },
+        {
+          "bin": "0.9-1.0",
+          "count": 402,
+          "observed_frequency": 0.9453,
+          "mean_predicted": 0.9389,
+          "absolute_error": 0.0064
+        }
+      ]
+    },
+    "test": {
+      "brier_score": 0.1244,
+      "ece": 0.0192,
+      "interpretation": "Brier score: 0.1244 (lower is better, 0 = perfect). ECE: 0.0192 (lower is better, 0 = perfectly calibrated). The model's predicted probabilities closely match observed frequencies.",
+      "bin_analysis": [
+        {
+          "bin": "0.0-0.1",
+          "count": 328,
+          "observed_frequency": 0.0335,
+          "mean_predicted": 0.0448,
+          "absolute_error": 0.0112
+        },
+        {
+          "bin": "0.1-0.2",
+          "count": 168,
+          "observed_frequency": 0.119,
+          "mean_predicted": 0.1433,
+          "absolute_error": 0.0243
+        },
+        {
+          "bin": "0.2-0.3",
+          "count": 102,
+          "observed_frequency": 0.1863,
+          "mean_predicted": 0.2466,
+          "absolute_error": 0.0603
+        },
+        {
+          "bin": "0.3-0.4",
+          "count": 86,
+          "observed_frequency": 0.2791,
+          "mean_predicted": 0.3476,
+          "absolute_error": 0.0685
+        },
+        {
+          "bin": "0.4-0.5",
+          "count": 82,
+          "observed_frequency": 0.4634,
+          "mean_predicted": 0.4512,
+          "absolute_error": 0.0122
+        },
+        {
+          "bin": "0.5-0.6",
+          "count": 102,
+          "observed_frequency": 0.549,
+          "mean_predicted": 0.5548,
+          "absolute_error": 0.0058
+        },
+        {
+          "bin": "0.6-0.7",
+          "count": 153,
+          "observed_frequency": 0.6013,
+          "mean_predicted": 0.6537,
+          "absolute_error": 0.0524
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 220,
+          "observed_frequency": 0.7818,
+          "mean_predicted": 0.7547,
+          "absolute_error": 0.0271
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 384,
+          "observed_frequency": 0.8568,
+          "mean_predicted": 0.8531,
+          "absolute_error": 0.0037
+        },
+        {
+          "bin": "0.9-1.0",
+          "count": 375,
+          "observed_frequency": 0.9413,
+          "mean_predicted": 0.9369,
+          "absolute_error": 0.0045
+        }
+      ]
+    }
+  },
+  "final_test_metrics": {
+    "data_type": "SYNTHETIC DEVELOPMENT METRICS",
+    "model": "Logistic Regression",
+    "threshold": 0.4,
+    "threshold_selection_method": "Maximize F1 with precision>=0.70, recall>=0.75 on validation set",
+    "precision": 0.7903,
+    "recall": 0.9336,
+    "f1": 0.856,
+    "roc_auc": 0.8964,
+    "pr_auc": 0.8986,
+    "brier_score": 0.1244,
+    "confusion_matrix": {
+      "tn": 610,
+      "fp": 276,
+      "fn": 74,
+      "tp": 1040
+    },
+    "total_samples": 2000,
+    "positive_rate": 0.557
+  },
+  "final_test_cost": {
+    "fp_cost": 276000.0,
+    "fn_cost": 1994093.0,
+    "total_cost": 2270093.0,
+    "net_recovery": 24949015.0
+  },
+  "predict_case_interface": {
+    "module": "ml/predict.py",
+    "function": "predict_case(features_dict) -> dict",
+    "input_example": {
+      "transaction_amount": 84999,
+      "customer_order_count": 15,
+      "previous_refunds": 1,
+      "previous_disputes": 0,
+      "delivery_confirmed": 1,
+      "delivery_delay_days": 0,
+      "dispute_delay_days": 10,
+      "customer_avg_order_value": 45000.0,
+      "communication_count": 3,
+      "refund_amount_ratio": 0.05,
+      "payment_failures": 0,
+      "evidence_items_available": 5,
+      "evidence_items_missing": 1,
+      "dispute_reason": "item_not_received"
+    },
+    "output_fields": {
+      "contest_probability": "float, P(successful contest) from ML model",
+      "risk_level": "str, HIGH/MEDIUM/LOW display label (NOT a decision)",
+      "reason_codes": "list of {feature, direction, contribution, raw_value}",
+      "model_type": "str, which model produced the prediction",
+      "recalibrated": "bool, whether the model was post-hoc calibrated",
+      "optimal_threshold": "float, the selected operating threshold",
+      "data_disclaimer": "str, warning about synthetic data",
+      "note": "str, reminder that this is P(success) only, not a decision"
+    },
+    "architecture_note": "predict_case() outputs P(success) and reason codes ONLY. It does NOT output ACCEPT/ESCALATE/CONTEST. The decision is made by decision_policy.decide()."
+  },
+  "architecture_separation": {
+    "ml_model": "Outputs P(contest_success) and model-derived reason codes",
+    "decision_policy": "Separate module: uses P(success) + evidence + expected value + business rules to decide ACCEPT/ESCALATE/CONTEST",
+    "evidence_agent": "Only activated downstream when decision is CONTEST",
+    "llm_role": "Summarize evidence, draft responses. NEVER generates reason codes or risk scores."
+  }
+}
